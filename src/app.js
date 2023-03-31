@@ -1,34 +1,18 @@
-import express, { urlencoded } from "express";
-import { productManager } from "./productsManager.js";
+import express from "express";
+import cartsRouter from "./routes/cartsRoutes.js";
+import productsRouter from "./routes/productsRoutes.js";
+import path from "path";
 
 const app = express();
-const manager = new productManager();
-app.use(express.urlencoded({ extended: true }));
+const absolutePath = path.resolve("/src");
 
-app.get(`/products`, async (req, res) => {
-  try {
-    await manager.loadProducts();
-  } catch (e) {
-    console.error(e);
-  } finally {
-    if (req.query.hasOwnProperty(`limit`)) {
-      const limite = +req.query.limit;
-      res.send(manager.getProducts().slice(0, limite));
-    } else {
-      res.send(manager.getProducts());
-    }
-  }
-});
+app.get("/api/products", productsRouter);
+app.get("/api/products/:id", productsRouter);
+app.post("/api/products", productsRouter);
+app.put("/api/products", productsRouter);
+app.delete("/api/products", productsRouter);
 
-app.get(`/products/:id`, async (req, res) => {
-  try {
-    await manager.loadProducts();
-  } catch (e) {
-    console.error(e);
-  } finally {
-    res.send(manager.getProductsById(req.params.id));
-  }
-});
+app.get(`/api/carts`, cartsRouter);
 
 app.listen(8080, () => {
   console.log("Server is listening on port 8080...");

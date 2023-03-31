@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-import { createServer } from "http";
 import { productManager } from "./productsManager.js";
 
 async function readFile(path) {

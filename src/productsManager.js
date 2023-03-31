@@ -65,8 +65,9 @@ class productManager {
         stock: stock,
       });
       await saveData(this.path, JSON.stringify(this.products));
+      return true;
     } else {
-      console.log("Error. Repeated code.");
+      return false;
     }
   }
 
@@ -75,21 +76,29 @@ class productManager {
   }
 
   getProductsById(id) {
-    return (
-      this.products.find((element) => element.id == id) || "Product not found"
-    );
+    return this.products.find((element) => element.id == id) || false;
   }
 
   updateProduct(prod) {
-    this.products.find((p, index) => {
-      if (p.id === prod.id) Object.assign(this.products[index], prod);
-    });
+    const index = this.products.findIndex((p) => p.id == prod.id);
+    if (index < 0) return false;
+    Object.assign(this.products[index], prod);
+    return true;
+    // this.products.find((p, index) => {
+    //   if (p.id === prod.id) Object.assign(this.products[index], prod);
+    // });
   }
 
   async deleteProduct(id) {
-    this.products = this.products.filter((prod) => prod.id !== id);
-    saveData(this.path, JSON.stringify(this.products));
+    const initialLength = this.products.length;
+    this.products = this.products.filter((prod) => prod.id != id);
+    if (initialLength === this.products.length) {
+      return false;
+    } else {
+      await saveData(this.path, JSON.stringify(this.products));
+      return true;
+    }
   }
 }
 
-export { productManager };
+export default productManager;
