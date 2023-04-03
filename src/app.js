@@ -13,6 +13,10 @@ app.put("/api/products", productsRouter);
 app.delete("/api/products", productsRouter);
 
 app.get(`/api/carts`, cartsRouter);
+app.get("/api/carts/:id", cartsRouter);
+app.post("/api/carts", cartsRouter);
+app.put("/api/carts", cartsRouter);
+app.delete("/api/carts", cartsRouter);
 
 app.listen(8080, () => {
   console.log("Server is listening on port 8080...");
