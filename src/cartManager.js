@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { productManager } from "./productsManager.js";
+import productManager from "./productsManager.js";
 
 async function readFile(path) {
   try {
@@ -21,7 +21,7 @@ async function saveData(path, data) {
 
 class cartManager {
   constructor() {
-    this.path = "./Carts.json";
+    this.path = "./Carritos.json";
     this.carts = [];
   }
 
@@ -45,14 +45,20 @@ class cartManager {
       idCart: this.generateId(),
       products: [],
     });
-    await saveData(this.path, JSON.stringify(this.carts));
+    try {
+      await saveData(this.path, JSON.stringify(this.carts));
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   }
 
   getCarts() {
     return this.carts;
   }
 
-  getcartsById(idCart) {
+  getCartsById(idCart) {
     return (
       this.carts.find((element) => element.idCart == idCart) ||
       "Product not found"
@@ -61,10 +67,13 @@ class cartManager {
 
   async updateCart(indexCart, idProd, quantity) {
     const cartPos = this.carts.findIndex((c) => c.idCart == indexCart);
-    if (cartPos < 0) return `No exite el carrito con ese ID`;
+    if (cartPos < 0) return false;
     const prodPos = this.carts[cartPos].products.findIndex(
-      (e) => e.idProd === idProd
+      (c) => c.idProd === idProd
     );
+    const productsManager = new productManager();
+    await productsManager.loadProducts();
+    if (!productsManager.getProductsById(idProd)) return false;
     if (prodPos >= 0) {
       this.carts[cartPos].products[prodPos].quantity = quantity;
     } else {
@@ -73,25 +82,19 @@ class cartManager {
         quantity: quantity,
       });
     }
-    /*if (
-      this.carts[indexCart - 1].products.findIndex(
-        (element) => element.idProd === idProd
-      )
-    ) {
-      this.carts[indexCart - 1].quantity = quantity;
-    } else {
-      this.carts[indexCart - 1].products.push({
-        idProd: idProd,
-        quantity: quantity,
-      });
-    }
-    saveData(this.path, JSON.stringify(this.carts));
-    */
+    await saveData(this.path, JSON.stringify(this.carts));
+    return true;
   }
 
   async deleteCart(id) {
+    const initialLength = this.carts.length;
     this.carts = this.carts.filter((c) => c.idCart !== id);
-    saveData(this.path, JSON.stringify(this.carts));
+    if (initialLength === this.carts.length) {
+      return false;
+    } else {
+      await saveData(this.path, JSON.stringify(this.carts));
+      return true;
+    }
   }
 }
 

@@ -69,7 +69,6 @@ productRouter.put("/api/products", async (req, res) => {
 });
 
 productRouter.delete("/api/products", async (req, res) => {
-  //const sucess = await productsManager.deleteProduct(req.id);
   let sucess;
   try {
     await productsManager.loadProducts();

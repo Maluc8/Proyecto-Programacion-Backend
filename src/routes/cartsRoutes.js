@@ -50,7 +50,6 @@ cartsRouter.put("/api/carts", async (req, res) => {
       return cartsManager.updateCart(idCart, prod.idProd, prod.quantity);
     });
     const results = await Promise.all(promises);
-    console.log(promises[0], promises[1]);
     if (results.every((prom) => prom)) {
       res.status(200).send({ message: `Modified successfully` });
     } else {

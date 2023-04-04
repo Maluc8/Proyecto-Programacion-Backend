@@ -84,9 +84,6 @@ class productManager {
     if (index < 0) return false;
     Object.assign(this.products[index], prod);
     return true;
-    // this.products.find((p, index) => {
-    //   if (p.id === prod.id) Object.assign(this.products[index], prod);
-    // });
   }
 
   async deleteProduct(id) {
