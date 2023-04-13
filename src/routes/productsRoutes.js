@@ -18,7 +18,8 @@ productRouter.get("/api/products", async (req, res) => {
       const limite = +req.query.limit;
       res.send(productsManager.getProducts().slice(0, limite));
     } else {
-      res.send(productsManager.getProducts());
+      const products = productsManager.getProducts();
+      res.render(`home`, { products });
     }
   }
 });

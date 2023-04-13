@@ -2,9 +2,21 @@ import express from "express";
 import cartsRouter from "./routes/cartsRoutes.js";
 import productsRouter from "./routes/productsRoutes.js";
 import path from "path";
+import { engine } from "express-handlebars";
 
 const app = express();
-const absolutePath = path.resolve("/src");
+const viewsPath = path.resolve("./views");
+console.log(viewsPath);
+
+app.engine(
+  `handlebars`,
+  engine({
+    layoutsDir: `./views/layouts`,
+    defaultLayout: `home.handlebars`,
+  })
+);
+app.set("view engine", "handlebars");
+app.set("views", `./views/layouts`);
 
 app.get("/api/products", productsRouter);
 app.get("/api/products/:id", productsRouter);
