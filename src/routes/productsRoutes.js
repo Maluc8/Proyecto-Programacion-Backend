@@ -19,7 +19,7 @@ productRouter.get("/api/products", async (req, res) => {
       res.send(productsManager.getProducts().slice(0, limite));
     } else {
       const products = productsManager.getProducts();
-      res.render(`home`, { products });
+      res.render(`cards`, { title: `Store`, products });
     }
   }
 });
@@ -80,6 +80,21 @@ productRouter.delete("/api/products", async (req, res) => {
     sucess
       ? res.status(200).send({ message: "Deleted successfully" })
       : res.status(409).send({ message: "Error" });
+  }
+});
+
+productRouter.get("/api/realTimeProducts", async (req, res) => {
+  try {
+    await productsManager.loadProducts();
+    const products = productsManager.getProducts();
+    res.render(`realTimeProducts`, {
+      title: `Real Time Store`,
+      script: `<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script src="/js/index.js" type="text/javascript"></script>`,
+      products,
+    });
+  } catch (e) {
+    console.error(e);
   }
 });
 

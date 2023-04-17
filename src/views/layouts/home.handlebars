@@ -1,11 +1,14 @@
-<h1>Listado de productos:</h1>
-<ul>
-  {{#each products}}
-    <li>
-        <h3>{{this.title}} - {{this.description}}</h3>
-        <h4>Precio: ${{this.price}}</h4>
-        <p>Código: {{code}}</p>
-        <button id="{{this.id}}">Eliminar</button>
-    </li>
-  {{/each}}
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    {{{script}}}
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script src="/js/index.js" type="text/javascript"></script>
+    /-->
+</head>
+<body>
+  {{{body}}}
+</body>
+</html>

@@ -1,5 +1,11 @@
-<div>
-    <h3 id:{{id}}>{{title}}:</h3>
-    <p>Desc: {{descripcion}}</p>
-    <h3>Precio: ${{price}}</h3>
-</div>
+    <h1>Store</h1>
+    <h1>Listado de productos: </h1>
+<ul>
+  {{#each products}}
+    <li>
+        <h3>{{this.title}} - {{this.description}}</h3>
+        <h4>Precio: ${{this.price}}</h4>
+        <p>Código: {{code}}</p>
+    </li>
+  {{/each}}
+</ul>

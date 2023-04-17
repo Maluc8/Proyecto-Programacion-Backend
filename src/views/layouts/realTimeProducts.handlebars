@@ -1,0 +1,43 @@
+<h1>Store</h1>
+<nav>
+  <form action="api/products" method="post">Update:
+    <ul>
+      <li>
+        <label for="id">ID</label>
+        <input type="number" id="id">
+      </li>
+      <li>
+        <label for="title">Title</label>
+        <input type="text" id="title">
+      </li>
+      <li>
+        <label for="description">Description</label>
+        <input type="text" id="description">
+      </li>
+      <li>
+        <label for="price">Price</label>
+        <input type="number" id="price">
+      </li>
+      <li>
+        <label for="code">Code</label>
+        <input type="number" id="code">
+      </li>
+      <li>
+        <label for="stock">Stock</label>
+        <input type="number" id="stock">
+      </li>      
+    </ul>
+    <button>submit</button>
+  </form>
+</nav>
+<h1>Listado en tiempo real de productos:</h1>
+<ul>
+  {{#each products}}
+    <li>
+        <h3>{{this.title}} - {{this.description}}</h3>
+        <h4>Precio: ${{this.price}}</h4>
+        <p>Código: {{code}}</p>
+        <button id="{{this.id}}">Eliminar</button>
+    </li>
+  {{/each}}
+</ul>
